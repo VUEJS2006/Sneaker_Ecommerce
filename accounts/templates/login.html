@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow p-4" style="width: 350px;">
+      <h3 class="text-center mb-4">Login</h3>
+
+      <!-- Regular Email/Password Login -->
+      <form method="POST" id="loginForm">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="email" class="form-label">Email address</label>
+          <input
+            name="email"
+            type="email"
+            class="form-control"
+            id="email"
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input
+            name="password"
+            type="password"
+            class="form-control"
+            id="password"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+      </form>
+
+      <!-- Divider -->
+      <div class="text-center my-3">— or —</div>
+
+      <!-- Google Login Button -->
+      <button id="googleLogin" class="btn btn-light border w-100 d-flex align-items-center justify-content-center">
+        <img
+          src="https://developers.google.com/identity/images/g-logo.png"
+          alt="Google Logo"
+          width="20"
+          class="me-2"
+        />
+        Sign in with Google
+      </button>
+
+      <p class="text-center mt-3 small">
+        Don't have an account? <a href="{% url 'register' %}">Sign Up</a>
+
+      </p>
+    </div>
+  </div>
+{% endblock %}
