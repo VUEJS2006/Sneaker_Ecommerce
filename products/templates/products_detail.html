@@ -3,7 +3,7 @@
 {% include 'navbar.html'%}
 <div class="container mt-5">
     <br>
-
+    {% if product.is_sale %}
     <div class="card mb-3">
         <div class="row g-0">
             <div class="col-md-4">
@@ -25,9 +25,9 @@
                         &nbsp;&nbsp;Sale!&nbsp;&nbsp;
                     </div>
                     <br>
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent d-flex justify-content-center" style="gap: 15px;">
-                        <div class="text-center"><a class="btn btn-outline-dark mt-auto"
-                                href="#">Add To Cart</a></div>
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent d-flex justify-content-center"
+                        style="gap: 15px;">
+                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add To Cart</a></div>
                         <div class="text-center"><a class="btn btn-outline-dark mt-auto"
                                 href="{% url 'productlist'%}">Product Page</a></div>
                     </div>
@@ -36,4 +36,35 @@
         </div>
     </div>
 </div>
+{% else %}
+<div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <center>
+                        <h5 class="card-title">{{product.name}}</h5>
+                        <br>
+                        <p class="card-text mt-5">{{product.desciption}}</p>
+                        <br>
+                        <strike> ${{product.price}} </strike>&nbsp;
+                        <span> ${{product.sale_price}}/-</span>
+                    </center>
+                    <br>
+                    <br>
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent d-flex justify-content-center"
+                        style="gap: 15px;">
+                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add To Cart</a></div>
+                        <div class="text-center"><a class="btn btn-outline-dark mt-auto"
+                                href="{% url 'productlist'%}">Product Page</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% include 'footer.html' %}
 {% endblock %}
