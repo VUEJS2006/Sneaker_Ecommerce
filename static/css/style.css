@@ -163,6 +163,51 @@ section.category-product .card:hover .card-body img {
   box-sizing: border-box
 }
 
+/* admin  */
+body {
+  background-color: #f8f9fa;
+}
+
+/* Sidebar */
+.sidebar {
+  height: 100vh;
+  background-color: #111827;
+  color: white;
+}
+
+.sidebar a {
+  color: #cbd5e1;
+  text-decoration: none;
+  display: block;
+  padding: 10px 20px;
+  transition: 0.2s;
+}
+
+.sidebar a:hover {
+  background-color: #1f2937;
+  color: white;
+}
+
+/* Dropdown icon */
+.dropdown-toggle::after {
+  float: right;
+  margin-top: 5px;
+}
+
+/* Submenu (dropdown) */
+.submenu a {
+  padding-left: 40px;
+  background-color: #1f2937;
+}
+
+/* Card design */
+.card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+
 
 .product-wrap {
   width: 100%;

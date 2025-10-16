@@ -5,3 +5,6 @@ from django.shortcuts import render
 def admin_home(request):
     # product = Product.objects.all()
     return render (request,'admin.html')
+
+def CategoryList(request):
+    return render(request, 'admincategory.html')
