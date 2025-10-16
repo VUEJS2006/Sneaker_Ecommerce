@@ -3,7 +3,7 @@
 {% include 'navbar.html'%}
 <div class="container mt-5">
     <br>
-    {% if product.is_sale %}
+    <!-- {% if product.is_sale %}
     <div class="card mb-3">
         <div class="row g-0">
             <div class="col-md-4">
@@ -65,6 +65,83 @@
         </div>
     </div>
 </div>
-{% endif %}
-{% include 'footer.html' %}
-{% endblock %}
+{% endif %} -->
+
+    <div class="product-wrap">
+        {% if product.is_sale %}
+        <div class="cards">
+            <!-- LEFT: main image only -->
+            <div class="img-area">
+                <div class="img-card">
+                    <!-- Replace "product.jpg" with your image file or URL -->
+                    <img src="{{ product.image.url }}" alt="Headphone product image">
+                </div>
+            </div>
+
+            <!-- RIGHT: product details up to paragraph -->
+            <div class="content">
+                <h1 class="title">{{product.name}}</h1>
+                <br>
+                <p class="desc">
+                    {{product.desciption}}
+                </p>
+<br>
+
+
+                <div class="price">
+                    <strike>
+                        <p>${{product.price}}
+                    </strike> &nbsp;<span>${{product.sale_price}}/-</span></p>
+                </div>
+             
+                <div class="rating">
+                    <div class="bi-star-fill"></div>
+                    &nbsp;&nbsp;Sale!&nbsp;&nbsp;
+                    <div class="bi-star-fill"></div>
+                </div>
+                <div class="btn-row mt-5">
+                    <button class="btn btn-primary">Buy It Now</button>
+                    <button class="btn btn-success">Add to Cart</button>
+                </div>
+
+
+            </div>
+        </div>
+        {% else %}
+          <div class="cards">
+            <!-- LEFT: main image only -->
+            <div class="img-area">
+                <div class="img-card">
+                    <!-- Replace "product.jpg" with your image file or URL -->
+                    <img src="{{ product.image.url }}" alt="Headphone product image">
+                </div>
+            </div>
+ 
+            <!-- RIGHT: product details up to paragraph -->
+            <div class="content">
+                <h1 class="title">{{product.name}}</h1>
+                <br>
+                <p class="desc">
+                    {{product.desciption}}
+                </p>
+<br>
+
+
+
+                <div class="price">
+                    <strike>
+                        <p>${{product.price}}
+                    </strike> &nbsp;<span>${{product.sale_price}}/-</span></p>
+                </div>
+<br>
+                <div class="btn-row mt-2">
+                    <button class="btn btn-primary">Buy It Now</button>
+                    <button class="btn btn-success">Add to Cart</button>
+                </div>
+
+
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% endblock %}
