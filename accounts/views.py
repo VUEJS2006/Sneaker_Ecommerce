@@ -46,10 +46,10 @@ def RegisterView(request):
         password_confirm = request.POST['password_confirm']
         if User.objects.filter(username = username):
             messages.error(request, "Username already exists")
-            return redirect('/register/')
+            return redirect('/accounts/register/')
         if User.objects.filter(email = email):
             messages.error(request, "email already exists")
-            return redirect('/register/')
+            return redirect('/accounts/register/')
         if password == password_confirm:
             user = User.objects.create_user(
             username=username,
@@ -59,10 +59,10 @@ def RegisterView(request):
             user.save()
             login(request,user)
             messages.success(request,"Register successfully")
-            return redirect('/login/')
+            return redirect('/accounts/login/')
         else:
             messages.error(request,"Password does not match")
-            return redirect('/register/')
+            return redirect('/accounts/register/')
 def LogoutView(request):
     logout(request)
     return redirect('/accounts/login/')

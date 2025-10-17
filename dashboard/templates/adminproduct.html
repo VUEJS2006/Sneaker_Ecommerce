@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Product{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        {% include 'sidebar.html' %}
+
+        <!-- Main Content -->
+        <div class="col-md-10 p-4">
+
+            <!-- Add Button -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4>Admin Product</h4>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+                    + Add New
+                </button>
+            </div>
+
+            <!-- Orders Table -->
+            <div class="card shadow-sm border-0 p-3">
+                <h5 class="mb-3">Product development</h5>
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>No</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Category</th>
+                            <th>description</th>
+                            <th>image</th>
+                            <th>is_sale</th>
+                            <th>sale_price</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in products %}
+                        <tr>
+                            <th scope="row">{{forloop.counter}}</th>
+                            <td>{{product.name}}</td>
+                            <td>{{product.price}}</td>
+                            <td>{{product.category}}</td>
+                            <td class="nowrap">  {{product.desciption}}</td>
+
+                            {% if product.image %}
+                            <td>
+                                <img src="{{product.image.url}}" alt="image" width="100px">
+                            </td>
+                            {% endif %}
+                            <td><span class="badge bg-warning">{{product.is_sale}}</span></td>
+                            <td>{{product.sale_price}}</td>
+                            <td>
+
+                                <button class="btn btn-success" data-bs-toggle="modal"
+                                    data-bs-target="#updateModal_{{category.id}}">Update</button>
+                                <button class="btn btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal_{{category.id}}">Delete</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Create -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content border-0 shadow">
+
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="addModalLabel">Add New Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form method="POST" action="{% url 'adminproductcreate'%}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3 text-start">
+                        <label for="productName" class="form-label">Product Name</label>
+                        <input type="text" class="form-control" name="name" id="productName"
+                            placeholder="Enter Product Name" required>
+                    </div>
+                    <div class="mb-3 text-start">
+                        <label for="productName" class="form-label">Product Price</label>
+                        <input type="number" class="form-control" name="price" id="productName"
+                            placeholder="Enter Product Price" required>
+                    </div>
+                    <div class="mb-3 text-start">
+                        <label for="category" class="col-form-label">Category</label>
+                        <select name="category" class="form-control" id="category">
+                            {% for category in categorise %}
+                            <option value="{{category.id}}">{{category.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3 text-start">
+                        <label for="description" class="col-form-label">Description</label>
+                        <textarea style="resize: none;" class="form-control" name="desciption"
+                            id="description"></textarea>
+                    </div>
+                    <div class="mb-3 text-start">
+                        <label for="image" class="col-form-label">Image</label>
+                        <input type="file" name="image" class="form-control" id="image">
+                    </div>
+                    <div class="mb-3 text-start mt-2">
+                        <p class="mt-2">Sale Product</p>
+                        <input type="checkbox" class="btn-check align-items-center" name="is_sale" id="toggleBtn"
+                            autocomplete="off">
+                        <label class="btn btn-outline-primary" for="toggleBtn">Sale</label>
+                    </div>
+                    <div class="mb-3 text-start">
+                        <label for="productName" class="form-label">Product Sale_Price</label>
+                        <input type="number" class="form-control" name="sale_price" id="productName"
+                            placeholder="Enter Product Sale_Price" required>
+                    </div>
+                    <div class="text-end">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
