@@ -52,7 +52,28 @@ def ProductCreate(request):
         )
         product.save()
         return redirect('/dashboard/adminproduct/')
-
-
-
     
+def ProductUpdate(request, pk):
+    product = Product.objects.get(id=pk)
+    if request.method == "POST":
+        product.name = request.POST.get('name')
+        product.price = request.POST.get('price')
+        product.category_id = request.POST.get('category')
+        product.desciption = request.POST.get('desciption')
+        
+        if request.FILES.get('image'):
+            product.image = request.FILES.get('image')
+
+        product.is_sale = request.POST.get('is_sale') == "on"
+        product.sale_price = request.POST.get('sale_price')
+        
+        product.save()
+        return redirect('/dashboard/adminproduct/')
+    
+def ProductDelete(request, pk):
+    product = Product.objects.get(id=pk)
+    if request.method == "POST":
+        product.delete()
+        return redirect('/dashboard/adminproduct/')
+    
+    return render(request, 'adminproduct.html', {'product': product})

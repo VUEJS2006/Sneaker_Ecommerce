@@ -10,6 +10,9 @@ urlpatterns = [
 
     path('adminproduct/', views.ProductList, name='adminproduct'),
     path('adminproduct/create/', views.ProductCreate, name='adminproductcreate'),
+    path('adminproduct/update/<int:pk>/', views.ProductUpdate, name="adminproductupdate"),
+    path('adminproduct/delete/<int:pk>/', views.ProductDelete, name="product-delete"),
+
     
 
     

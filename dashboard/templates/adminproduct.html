@@ -39,25 +39,21 @@
                     <tbody>
                         {% for product in products %}
                         <tr>
-                            <th scope="row">{{forloop.counter}}</th>
-                            <td>{{product.name}}</td>
-                            <td>{{product.price}}</td>
-                            <td>{{product.category}}</td>
-                            <td class="nowrap">  {{product.desciption}}</td>
-
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.price }}</td>
+                            <td>{{ product.category }}</td>
+                            <td class="nowrap">{{ product.desciption }}</td>
                             {% if product.image %}
-                            <td>
-                                <img src="{{product.image.url}}" alt="image" width="100px">
-                            </td>
+                            <td><img src="{{ product.image.url }}" alt="image" width="100px"></td>
+                            {% else %}
+                            <td>--</td>
                             {% endif %}
-                            <td><span class="badge bg-warning">{{product.is_sale}}</span></td>
-                            <td>{{product.sale_price}}</td>
+                            <td><span class="badge bg-warning">{{ product.is_sale }}</span></td>
+                            <td>{{ product.sale_price }}</td>
                             <td>
-
-                                <button class="btn btn-success" data-bs-toggle="modal"
-                                    data-bs-target="#updateModal_{{category.id}}">Update</button>
-                                <button class="btn btn-danger" data-bs-toggle="modal"
-                                    data-bs-target="#deleteModal_{{category.id}}">Delete</button>
+                                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#updateModal_{{ product.id }}">Update</button>
+                                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal_{{ product.id }}">Delete</button>
                             </td>
                         </tr>
                         {% endfor %}
@@ -67,56 +63,50 @@
         </div>
     </div>
 </div>
-<!-- Create -->
+
+<!-- create -->
 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content border-0 shadow">
-
             <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title" id="addModalLabel">Add New Product</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-
             <div class="modal-body">
-                <form method="POST" action="{% url 'adminproductcreate'%}" enctype="multipart/form-data">
+                <form method="POST" action="{% url 'adminproductcreate' %}" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="mb-3 text-start">
-                        <label for="productName" class="form-label">Product Name</label>
-                        <input type="text" class="form-control" name="name" id="productName"
-                            placeholder="Enter Product Name" required>
+                        <label class="form-label">Product Name</label>
+                        <input type="text" class="form-control" name="name" placeholder="Enter Product Name" required>
                     </div>
                     <div class="mb-3 text-start">
-                        <label for="productName" class="form-label">Product Price</label>
-                        <input type="number" class="form-control" name="price" id="productName"
-                            placeholder="Enter Product Price" required>
+                        <label class="form-label">Product Price</label>
+                        <input type="number" class="form-control" name="price" placeholder="Enter Product Price" required>
                     </div>
                     <div class="mb-3 text-start">
-                        <label for="category" class="col-form-label">Category</label>
-                        <select name="category" class="form-control" id="category">
+                        <label class="form-label">Category</label>
+                        <select name="category" class="form-control">
                             {% for category in categorise %}
-                            <option value="{{category.id}}">{{category.name}}</option>
+                            <option value="{{ category.id }}">{{ category.name }}</option>
                             {% endfor %}
                         </select>
                     </div>
                     <div class="mb-3 text-start">
-                        <label for="description" class="col-form-label">Description</label>
-                        <textarea style="resize: none;" class="form-control" name="desciption"
-                            id="description"></textarea>
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" name="desciption" style="resize:none;"></textarea>
                     </div>
                     <div class="mb-3 text-start">
-                        <label for="image" class="col-form-label">Image</label>
-                        <input type="file" name="image" class="form-control" id="image">
+                        <label class="form-label">Image</label>
+                        <input type="file" class="form-control" name="image">
                     </div>
-                    <div class="mb-3 text-start mt-2">
-                        <p class="mt-2">Sale Product</p>
-                        <input type="checkbox" class="btn-check align-items-center" name="is_sale" id="toggleBtn"
-                            autocomplete="off">
+                    <div class="mb-3 text-start">
+                        <p>Sale Product</p>
+                        <input type="checkbox" class="btn-check" name="is_sale" id="toggleBtn" autocomplete="off">
                         <label class="btn btn-outline-primary" for="toggleBtn">Sale</label>
                     </div>
                     <div class="mb-3 text-start">
-                        <label for="productName" class="form-label">Product Sale_Price</label>
-                        <input type="number" class="form-control" name="sale_price" id="productName"
-                            placeholder="Enter Product Sale_Price" required>
+                        <label class="form-label">Product Sale Price</label>
+                        <input type="number" class="form-control" name="sale_price" placeholder="Enter Product Sale Price" required>
                     </div>
                     <div class="text-end">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -124,8 +114,89 @@
                     </div>
                 </form>
             </div>
-
         </div>
     </div>
 </div>
+<!-- Update Modal -->
+{% for product in products %}
+
+<div class="modal fade" id="updateModal_{{ product.id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title">Update Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{% url 'adminproductupdate' product.id %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3 text-start">
+                        <label class="form-label">Product Name</label>
+                        <input type="text" class="form-control" name="name" value="{{ product.name }}">
+                    </div>
+                    <div class="mb-3 text-start">
+                        <label class="form-label">Product Price</label>
+                        <input type="number" class="form-control" name="price" value="{{ product.price }}">
+                    </div>
+                    <div class="mb-3 text-start">
+                        <label class="col-form-label">Category</label>
+                        <select name="category" class="form-control">
+                            {% for category in categorise %}
+                            <option value="{{ category.id }}" {% if product.category.id == category.id %}selected{% endif %}>{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3 text-start">
+                        <label class="col-form-label">Description</label>
+                        <textarea class="form-control" name="desciption">{{ product.desciption }}</textarea>
+                    </div>
+                    <div class="mb-3 text-start">
+                        <label class="col-form-label">Current Image</label><br>
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" width="80px">
+                        {% endif %}
+                        <input type="file" name="image" class="form-control mt-2">
+                    </div>
+                    <div class="mb-3 text-start mt-2">
+                        <p>Sale Product</p>
+                        <input type="checkbox" class="btn-check" name="is_sale" id="sale_{{ product.id }}" {% if product.is_sale %}checked{% endif %}>
+                        <label class="btn btn-outline-primary" for="sale_{{ product.id }}">Sale</label>
+                    </div>
+                    <div class="mb-3 text-start">
+                        <label class="form-label">Product Sale Price</label>
+                        <input type="number" class="form-control" name="sale_price" value="{{ product.sale_price }}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal_{{ product.id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Delete Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{% url 'product-delete' product.id %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    Are you sure you want to delete <strong>{{ product.name }}</strong>?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
 {% endblock %}
